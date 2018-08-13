@@ -5,10 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="jquery-3.3.1.min.js"></script>
-    <link rel ="stylesheet" src="assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" src="assets/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+
+    <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCASUZiEUQmaGxPXGtSTwGF28xyP8EHB8U",
+            authDomain: "rps-multiplayer-4fdb1.firebaseapp.com",
+            databaseURL: "https://rps-multiplayer-4fdb1.firebaseio.com",
+            projectId: "rps-multiplayer-4fdb1",
+            storageBucket: "rps-multiplayer-4fdb1.appspot.com",
+            messagingSenderId: "35032849746"
+        };
+        firebase.initializeApp(config);
+    </script>
+
     <title>Multiplayer RPS</title>
 </head>
 
@@ -22,71 +37,98 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="teamSelect">
             <div class="col-1"></div>
-            <div class="col" style="text-align: center"> Player 1 Connected </div>
-            <div class="col" style="text-align: center"> Player 2 Connected </div>
+            <div class="col player1ready" id="selectPlayer1" style="text-align: center">Pick Player 1</div>
+            <div class="col player2ready" id="selectPlayer2" style="text-align: center">Pick Player 2</div>
             <div class="col-1"></div>
-</div>
+        </div>
         <div class="row">
-                <div class="col" style="text-align: center">
+            <div class="col" style="text-align: center">
                 instructions
             </div>
+        </div>
+        <div class="row" >
+               <div class="col" style="text-align: center"> Choose your throw</div>
             </div>
-            <div class="row">
-            <div class="col-1"></div>
+            <div class="row justify-content-center">
+            
             <div class="col" style="text-align: center">
-                Player 1 crap
-                <ul class="list-group">
-                        <li class="list-group-item">Rock</li>
-                        <li class="list-group-item">Paper</li>
-                        <li class="list-group-item">Scissors</li>
-                      </ul>
+                <table>
+                    <tr>
+                        <td id="p1r" style="background-color: white; width:40%"></td>
+                        <td><button id="rock" style="width:100px">Rock</button></td>
+                        <td id="p2r" style="background-color: white; width:40%"></td>
+                    </tr>
+                    </table>
+                    
             </div>
-            <div class="col" style="text-align: center">
-                Player 2 crap
-                <ul class="list-group">
-                        <li class="list-group-item">Rock</li>
-                        <li class="list-group-item">Paper</li>
-                        <li class="list-group-item">Scissors</li>
-                      </ul>
-            </div>            
-            <div class="col-1"></div>
-            </div>
-            <div class="row">
-                    <div class="col"></div>
-                    <div class="col-5" style="text-align: center">
-                    Chat Box
-                    <div class="row">
-                        <div class="col border border-dark" style="overflow: auto; height:125px; text-align: left;">
-                                ;alskdjf<br>
-                                ;alskdjf<br>
-                            as;ldkfj ;alskdjf<br>
-                            ;alskdjf<br>
-                            ;alskdjf<br>
-                            ;alskdjf<br>
-                            ;alskdjf<br>
-                            a;sldkfj ;alskdjf<br>
-                            as;ldkfj ;alskdjf<br>
-
-                        </div>
-                    </div>
-                    <div class="row">
-                            <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Chat" aria-label="Chat" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                      <button class="btn btn-outline-secondary" type="button">Send</button>
-                                    </div>
-                                  </div>
-                    </div>
+            
+        </div>
+        <div class="row justify-content-center">
+                
+                <div class="col" style="text-align: center">
+                        <table>
+                        <tr>
+                            <td id="p1p"  style="background-color: white; width:40%"></td>
+                            <td><button id="paper" style="width:100px">Paper</button></td>
+                            <td id="p2p" style="background-color: white; width:40%"></td>
+                        </tr>
+                        </table>
                         
-                    </div>
-                    <div class="col"></div>
+                   
+                </div>
                 
             </div>
+            <div class="row justify-content-center">
+                    
+                    <div class="col" style="text-align: center">
+                            <table>
+                            <tr>
+                                <td id="p1s" style="background-color: white; width:40%"></td>
+                                <td><button id="scissors" style="width:100px">Scissors</button></td>
+                                <td id="p2s" style="background-color: white; width:40%"></td>
+                            </tr>
+                            </table>
+                        
+                    </div>
+                    
+                </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-5" style="text-align: center">
+                Chat Box
+                <div class="row">
+                    <div class="col border border-dark" style="overflow: auto; height:125px; text-align: left;">
+                        ;alskdjf
+                        <br> ;alskdjf
+                        <br> as;ldkfj ;alskdjf
+                        <br> ;alskdjf
+                        <br> ;alskdjf
+                        <br> ;alskdjf
+                        <br> ;alskdjf
+                        <br> a;sldkfj ;alskdjf
+                        <br> as;ldkfj ;alskdjf
+                        <br>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Chat" aria-label="Chat" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col"></div>
+
         </div>
     </div>
-
+    </div>
+    <script src="assets/js/logic.js"></script>
 </body>
 
 </html>
