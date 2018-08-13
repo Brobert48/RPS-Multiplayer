@@ -45,87 +45,62 @@
         </div>
         <div class="row">
             <div class="col" style="text-align: center">
-                instructions
-            </div>
+                Choose Your Throw</div>
         </div>
-        <div class="row" >
-               <div class="col" style="text-align: center"> Choose your throw</div>
-            </div>
-            <div class="row justify-content-center">
-            
-            <div class="col" style="text-align: center">
-                <table>
-                    <tr>
-                        <td id="p1r" style="background-color: white; width:40%"></td>
-                        <td><button id="rock" style="width:100px">Rock</button></td>
-                        <td id="p2r" style="background-color: white; width:40%"></td>
-                    </tr>
-                    </table>
-                    
-            </div>
-            
-        </div>
-        <div class="row justify-content-center">
-                
-                <div class="col" style="text-align: center">
-                        <table>
-                        <tr>
-                            <td id="p1p"  style="background-color: white; width:40%"></td>
-                            <td><button id="paper" style="width:100px">Paper</button></td>
-                            <td id="p2p" style="background-color: white; width:40%"></td>
-                        </tr>
-                        </table>
-                        
-                   
-                </div>
-                
-            </div>
-            <div class="row justify-content-center">
-                    
-                    <div class="col" style="text-align: center">
-                            <table>
-                            <tr>
-                                <td id="p1s" style="background-color: white; width:40%"></td>
-                                <td><button id="scissors" style="width:100px">Scissors</button></td>
-                                <td id="p2s" style="background-color: white; width:40%"></td>
-                            </tr>
-                            </table>
-                        
-                    </div>
-                    
-                </div>
         <div class="row">
-            <div class="col"></div>
-            <div class="col-5" style="text-align: center">
-                Chat Box
-                <div class="row">
-                    <div class="col border border-dark" style="overflow: auto; height:125px; text-align: left;">
-                        ;alskdjf
-                        <br> ;alskdjf
-                        <br> as;ldkfj ;alskdjf
-                        <br> ;alskdjf
-                        <br> ;alskdjf
-                        <br> ;alskdjf
-                        <br> ;alskdjf
-                        <br> a;sldkfj ;alskdjf
-                        <br> as;ldkfj ;alskdjf
-                        <br>
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Chat" aria-label="Chat" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button">Send</button>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="col-3"></div>
+            <div class="col-2">
+                <img id="p1Image" style="width: 100%">
             </div>
-            <div class="col"></div>
+            <div class="col-2">
+                <td>
+                    <button id="rock" style="width:100%">Rock</button>
+                </td>
+                <td>
+                    <button id="paper" style="width:100%">Paper</button>
+                </td>
+                <td>
+                    <button id="scissors" style="width:100%">Scissors</button>
+                </td>
+            </div>
+            <div class="col-2">
+                <img id="p2Image" style="width: 100%">
+            </div>
+            <div class="col-3"></div>
 
         </div>
+    </div>
+
+    </div>
+    <div class="row">
+    <div class="col">
+        <button id="playAgainBtn">Play Again</button>
+    </div>
+
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-5" style="text-align: center">
+            Chat Box
+            <div class="row">
+                <div id='chatBox' class="col border border-dark" style="overflow: auto; height:125px; text-align: left;">
+                    
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group mb-3">
+                    <input type="text" id="chatText" class="form-control" placeholder="Chat" aria-label="Chat" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="chatBtn" type="button">Send</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col"></div>
+
+    </div>
     </div>
     </div>
     <script src="assets/js/logic.js"></script>

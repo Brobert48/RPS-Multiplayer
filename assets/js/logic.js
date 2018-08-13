@@ -44,7 +44,6 @@ $('#teamSelect').on('click', "#selectPlayer2", function () {
     }
 });
 database.ref().on("value", function (snapshot) {
-    // If Firebase has a highPrice and highBidder stored (first case)
     if (snapshot.child("PlayerOne").child('ready').exists()) {
         $('.player1ready').text('Player One Connected!');
         $('#selectPlayer1').removeAttr('id');
@@ -67,56 +66,58 @@ database.ref().on("value", function (snapshot) {
         gameState = 2;
         player1throw = snapshot.child("PlayerOne").child('throw').val();
         player2throw = snapshot.child("PlayerTwo").child('throw').val();
-        if(snapshot.child("PlayerOne").child('throw').val()==='rock'){
-            $('#p1r').removeAttr('style')
-        .attr('style','background-color: blue; width:40%')
+        if (snapshot.child("PlayerOne").child('throw').val() === 'rock') {
+            $('#p1Image').attr('src', 'assets/images/Rock.png')
         }
-        if(snapshot.child("PlayerOne").child('throw').val()==='paper'){
-            $('#p1p').removeAttr('style')
-        .attr('style','background-color: blue; width:40%')
+        if (snapshot.child("PlayerOne").child('throw').val() === 'paper') {
+            $('#p1Image').attr('src', 'assets/images/Paper.png')
         }
-        if(snapshot.child("PlayerOne").child('throw').val()==='scissors'){
-            $('#p1s').removeAttr('style')
-        .attr('style','background-color: blue; width:40%')
+        if (snapshot.child("PlayerOne").child('throw').val() === 'scissors') {
+            $('#p1Image').attr('src', 'assets/images/Scissors.png')
         }
-        if(snapshot.child("PlayerTwo").child('throw').val()==='rock'){
-            $('#p2r').removeAttr('style')
-        .attr('style','background-color: blue; width:40%')
+        if (snapshot.child("PlayerTwo").child('throw').val() === 'rock') {
+            $('#p2Image').attr('src', 'assets/images/Rock.png')
+
         }
-        if(snapshot.child("PlayerTwo").child('throw').val()==='paper'){
-            $('#p2p').removeAttr('style')
-        .attr('style','background-color: blue; width:40%')
+        if (snapshot.child("PlayerTwo").child('throw').val() === 'paper') {
+            $('#p2Image').attr('src', 'assets/images/Paper.png')
+
         }
-        if(snapshot.child("PlayerTwo").child('throw').val()==='scissors'){
-            $('#p2s').removeAttr('style')
-        .attr('style','background-color: blue; width:40%')
+        if (snapshot.child("PlayerTwo").child('throw').val() === 'scissors') {
+            $('#p2Image').attr('src', 'assets/images/Scissors.png')
+
         }
-        if(player1throw==='rock' && player2throw==='rock'){
-            gameResult = 3;            
+    }});
+    
+database.ref('/gameState').on('value',function(){
+        if(gameState===2){
+        if (player1throw === 'rock' && player2throw === 'rock') {
+            gameResult = 3;
+            console.log('tie');
         }
-        if(player1throw==='paper' && player2throw==='paper'){
-            gameResult = 3;            
+        if (player1throw === 'paper' && player2throw === 'paper') {
+            gameResult = 3;
         }
-        if(player1throw==='scissors' && player2throw==='scissors'){
-            gameResult = 3;            
+        if (player1throw === 'scissors' && player2throw === 'scissors') {
+            gameResult = 3;
         }
-        if(player1throw==='rock' && player2throw==='paper'){
+        if (player1throw === 'rock' && player2throw === 'paper') {
             gameResult = 2;
         }
-        if(player1throw==='rock' && player2throw==='scissors'){
-            gameResult =1;
+        if (player1throw === 'rock' && player2throw === 'scissors') {
+            gameResult = 1;
         }
-        if(player1throw==='paper' && player2throw==='rock'){
-            gameResult =1;
+        if (player1throw === 'paper' && player2throw === 'rock') {
+            gameResult = 1;
         }
-        if(player1throw==='paper' && player2throw==='scissors'){
+        if (player1throw === 'paper' && player2throw === 'scissors') {
             gameResult = 2;
         }
-        if(player1throw==='scissors' && player2throw==='rock'){
+        if (player1throw === 'scissors' && player2throw === 'rock') {
             gameResult = 2;
         }
-        if(player1throw==='scissors' && player2throw==='paper'){
-            gameResult =1;
+        if (player1throw === 'scissors' && player2throw === 'paper') {
+            gameResult = 1;
         }
     }
 
@@ -126,20 +127,24 @@ database.ref().on("value", function (snapshot) {
 $('#rock').on('click', function () {
     if (gameState === 1 && player === 1 && throwSelected === false) {
         playerOneRef.child('throw').set('rock');
+        $('#p1Image').attr('src', 'assets/images/Rock.png')
         throwSelected = true;
     }
     if (gameState === 1 && player === 2 && throwSelected === false) {
         playerTwoRef.child('throw').set('rock');
+        $('#p2Image').attr('src', 'assets/images/Rock.png')
         throwSelected = true;
     }
 });
 $('#paper').on('click', function () {
     if (gameState === 1 && player === 1 && throwSelected === false) {
         playerOneRef.child('throw').set('paper');
+        $('#p1Image').attr('src', 'assets/images/Paper.png')
         throwSelected = true;
     }
     if (gameState === 1 && player === 2 && throwSelected === false) {
         playerTwoRef.child('throw').set('paper');
+        $('#p2Image').attr('src', 'assets/images/Paper.png')
         throwSelected = true;
 
     }
@@ -147,10 +152,52 @@ $('#paper').on('click', function () {
 $('#scissors').on('click', function () {
     if (gameState === 1 && player === 1 && throwSelected === false) {
         playerOneRef.child('throw').set('scissors');
+        $('#p1Image').attr('src', 'assets/images/Scissors.png')
         throwSelected = true;
     }
     if (gameState === 1 && player === 2 && throwSelected === false) {
         playerTwoRef.child('throw').set('scissors');
+        $('#p2Image').attr('src', 'assets/images/Scissors.png')
         throwSelected = true;
+    }
+});
+$('#playAgainBtn').on('click', function(){
+    if(gameState === 2){
+    if(player === 1){
+        database.ref('/playAgain').child('PlayerOne').set('yes');
+        
+    }
+    if(player ===2){
+        database.ref('/playAgain').child('PlayerTwo').set('yes');
+        
+    }
+}
+});
+
+database.ref('/playAgain').on('value', function(snapshot){
+    if(snapshot.child('PlayerOne').val()=== 'yes'){
+        $('.player1ready').text('Player One Waiting');
+    }
+    if(snapshot.child('PlayerOne').val()=== 'yes' && snapshot.child('PlayerTwo').val()=== 'yes' ){
+      playerOneRef.child('throw').remove();
+      playerOneRef.child('ready').remove();
+      playerTwoRef.child('throw').remove();
+      playerTwoRef.child('ready').remove();
+      database.ref('/playAgain').child('PlayerOne').remove();
+      database.ref('/playAgain').child('PlayerTwo').remove();
+      $('#p1Image').removeAttr('src');
+      $('#p2Image').removeAttr('src');
+      throwSelected = false;
+      gameState = 1;
+    }
+});
+database.ref('/chat').on('value', function (snapshot){
+    $('#chatBox').append('<br>' + "Player One: "+ snapshot.child('PlayerOne').val());
+});
+
+$('#chatBtn').on('click', function(){
+    if(player === 1){
+        var content = $('#chatText').val();
+        database.ref('/chat').child('PlayerOne').set(content);
     }
 });
