@@ -19,6 +19,18 @@ var playerTwoRef = database.ref("/PlayerTwo");
 var player1throw;
 var player2throw;
 var playerSelected = false;
+var win = 0;
+var loss = 0;
+var tie = 0;
+if(player === 0){
+    database.ref('/PlayerOne').child('win').set(win);
+    database.ref('/PlayerOne').child('loss').set(loss);
+    database.ref('/PlayerOne').child('tie').set(tie);
+    database.ref('/PlayerTwo').child('win').set(win);
+    database.ref('/PlayerTwo').child('loss').set(loss);
+    database.ref('/PlayerTwo').child('tie').set(tie);
+    }
+
 
 $('#teamSelect').on('click', "#selectPlayer1", function () {
     if (playerSelected === false) {
@@ -44,6 +56,9 @@ $('#teamSelect').on('click', "#selectPlayer2", function () {
     }
 });
 database.ref().on("value", function (snapshot) {
+    if (gameState===1){
+        $('#playAgainBtn').attr('style','width:100%');
+    }
     if (snapshot.child("PlayerOne").child('ready').exists()) {
         $('.player1ready').text('Player One Connected!');
         $('#selectPlayer1').removeAttr('id');
@@ -52,9 +67,10 @@ database.ref().on("value", function (snapshot) {
         $('.player2ready').text('Player Two Connected!');
         $('#selectPlayer2').removeAttr('id');
     }
+    if(gameState === 0){
     if (snapshot.child("PlayerOne").child('ready').exists() && snapshot.child("PlayerTwo").child('ready').exists()) {
         gameState = 1;
-    }
+    }}
     if (snapshot.child("PlayerOne").child('throw').exists()) {
         $('.player1ready').text('Player One Ready!');
     }
@@ -66,6 +82,104 @@ database.ref().on("value", function (snapshot) {
         gameState = 2;
         player1throw = snapshot.child("PlayerOne").child('throw').val();
         player2throw = snapshot.child("PlayerTwo").child('throw').val();
+        if(gameState = 2){
+        if (player1throw === 'rock' && player2throw === 'rock') {
+            tie++;
+            gameResult = 3;
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+        }
+        if (player1throw === 'paper' && player2throw === 'paper') {
+            tie++;
+            gameResult = 3;
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+            
+        }
+        if (player1throw === 'scissors' && player2throw === 'scissors') {
+            tie++;
+            gameResult = 3;
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+            
+        }
+        if (player1throw === 'rock' && player2throw === 'paper') {
+            gameResult = 2;
+            if (player ===1){
+                loss++;
+            }
+            if (player===2){
+                win++
+            }
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+        }
+        if (player1throw === 'rock' && player2throw === 'scissors') {
+            gameResult = 1;
+            if (player ===1){
+                win++;
+            }
+            if (player===2){
+                loss++;
+            }
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+        }
+        if (player1throw === 'paper' && player2throw === 'rock') {
+            gameResult = 1;
+            if (player ===1){
+                win++;
+            }
+            if (player===2){
+                loss++;
+            }
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+        }
+        if (player1throw === 'paper' && player2throw === 'scissors') {
+            gameResult = 2;
+            if (player ===1){
+                loss++;
+            }
+            if (player===2){
+                win++
+            }
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+        }
+        if (player1throw === 'scissors' && player2throw === 'rock') {
+            gameResult = 2;
+            if (player ===1){
+                loss++;
+            }
+            if (player===2){
+                win++
+            }
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+        }
+        if (player1throw === 'scissors' && player2throw === 'paper') {
+            gameResult = 1;
+            if (player ===1){
+                win++;
+            }
+            if (player===2){
+                loss++;
+            }
+            playerOneRef.child('throw').remove();
+      playerTwoRef.child('throw').remove();
+        }}
+        if(player === 1){
+        database.ref('/PlayerOne').child('win').set(win);
+        database.ref('/PlayerOne').child('loss').set(loss);
+        database.ref('/PlayerOne').child('tie').set(tie);
+        }
+        if(player === 2){
+        database.ref('/PlayerTwo').child('win').set(win);
+        database.ref('/PlayerTwo').child('loss').set(loss);
+        database.ref('/PlayerTwo').child('tie').set(tie);
+        }
+
         if (snapshot.child("PlayerOne").child('throw').val() === 'rock') {
             $('#p1Image').attr('src', 'assets/images/Rock.png')
         }
@@ -89,41 +203,6 @@ database.ref().on("value", function (snapshot) {
         }
     }});
     
-database.ref('/gameState').on('value',function(){
-        if(gameState===2){
-        if (player1throw === 'rock' && player2throw === 'rock') {
-            gameResult = 3;
-            console.log('tie');
-        }
-        if (player1throw === 'paper' && player2throw === 'paper') {
-            gameResult = 3;
-        }
-        if (player1throw === 'scissors' && player2throw === 'scissors') {
-            gameResult = 3;
-        }
-        if (player1throw === 'rock' && player2throw === 'paper') {
-            gameResult = 2;
-        }
-        if (player1throw === 'rock' && player2throw === 'scissors') {
-            gameResult = 1;
-        }
-        if (player1throw === 'paper' && player2throw === 'rock') {
-            gameResult = 1;
-        }
-        if (player1throw === 'paper' && player2throw === 'scissors') {
-            gameResult = 2;
-        }
-        if (player1throw === 'scissors' && player2throw === 'rock') {
-            gameResult = 2;
-        }
-        if (player1throw === 'scissors' && player2throw === 'paper') {
-            gameResult = 1;
-        }
-    }
-
-
-});
-
 $('#rock').on('click', function () {
     if (gameState === 1 && player === 1 && throwSelected === false) {
         playerOneRef.child('throw').set('rock');
@@ -168,16 +247,45 @@ $('#playAgainBtn').on('click', function(){
         
     }
     if(player ===2){
-        database.ref('/playAgain').child('PlayerTwo').set('yes');
-        
+        database.ref('/playAgain').child('PlayerTwo').set('yes');   
     }
+    $('#playAgainBtn').attr('style','background-color: green; width:100%');
+
 }
 });
+database.ref('/PlayerOne').child('win').on('value', function(snapshot){
+    var stat = snapshot.val();
+    $('#p1win').text(stat);
+
+});
+database.ref('/PlayerOne').child('loss').on('value', function(snapshot){
+    var stat = snapshot.val();
+    $('#p1loss').text(stat);
+
+});
+database.ref('/PlayerOne').child('tie').on('value', function(snapshot){
+    var stat = snapshot.val();
+    $('#p1tie').text(stat);
+
+});
+database.ref('/PlayerTwo').child('win').on('value', function(snapshot){
+    var stat = snapshot.val();
+    $('#p2win').text(stat);
+
+});
+database.ref('/PlayerTwo').child('loss').on('value', function(snapshot){
+    var stat = snapshot.val();
+    $('#p2loss').text(stat);
+
+});
+database.ref('/PlayerTwo').child('tie').on('value', function(snapshot){
+    var stat = snapshot.val();
+    $('#p2tie').text(stat);
+
+});
+
 
 database.ref('/playAgain').on('value', function(snapshot){
-    if(snapshot.child('PlayerOne').val()=== 'yes'){
-        $('.player1ready').text('Player One Waiting');
-    }
     if(snapshot.child('PlayerOne').val()=== 'yes' && snapshot.child('PlayerTwo').val()=== 'yes' ){
       playerOneRef.child('throw').remove();
       playerOneRef.child('ready').remove();
@@ -191,13 +299,13 @@ database.ref('/playAgain').on('value', function(snapshot){
       gameState = 1;
     }
 });
-database.ref('/chat').on('value', function (snapshot){
-    $('#chatBox').append('<br>' + "Player One: "+ snapshot.child('PlayerOne').val());
-});
+// database.ref('/chat').on('value', function (snapshot){
+//     $('#chatBox').append('<br>' + "Player One: "+ snapshot.child('PlayerOne').val());
+// });
 
-$('#chatBtn').on('click', function(){
-    if(player === 1){
-        var content = $('#chatText').val();
-        database.ref('/chat').child('PlayerOne').set(content);
-    }
-});
+// $('#chatBtn').on('click', function(){
+//     if(player === 1){
+//         var content = $('#chatText').val();
+//         database.ref('/chat').child('PlayerOne').set(content);
+//     }
+// });
